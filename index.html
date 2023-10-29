@@ -1,0 +1,185 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes & Files Saving Application</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bookman+Old+Style&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Bookman Old Style', serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f8f9fa;
+            background-image: url('https://cdn73.picsart.com/199684104001202.gif?to=min&r=1024'); /* Replace with your GIF URL */
+            background-size: cover;
+            background-position: center;
+        }
+
+        h1 {
+            color: #343a40;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2em;
+            font-weight: bold;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards, slideIn 0.5s ease-in-out;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        li {
+            background-color: #ffffff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            animation: fadeIn 0.5s forwards, slideIn 0.5s ease-in-out;
+            transition: transform 0.2s ease-in-out;
+            position: relative;
+        }
+
+        li img {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+        }
+
+        li:hover {
+            transform: scale(1.03);
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            margin-left: 10px;
+            font-weight: bold;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            margin-top: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #495057;
+            font-weight: bold;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        input {
+            width: calc(100% - 18px);
+            padding: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        footer {
+            margin-top: 20px;
+            color: #495057;
+            text-align: center;
+            font-size: 1.2em;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-10px); }
+            to { transform: translateY(0); }
+        }
+
+        .file-upload {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Notes & Files Saving Application</h1>
+
+    <!-- File Upload Form -->
+    <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data" class="file-upload">
+        <label for="file">Upload File:</label>
+        <input type="file" name="file" id="file">
+        <button type="submit">Upload</button>
+    </form>
+
+    <h2>Uploaded Files:</h2>
+    <ul>
+        {% for file in uploaded_files %}
+            <li>{{ file }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Notes List -->
+    <h2>Notes:</h2>
+    <ul>
+        {% for user in notes %}
+            <li>
+                {{ user.name }}
+                <a href="{{ url_for('edit_note', note_id=user.id) }}">Edit</a>
+                <a href="{{ url_for('delete_note', note_id=user.id) }}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Add Note Form -->
+    <form action="{{ url_for('add_note') }}" method="post">
+        <label for="note_content">Add Note:</label>
+        <input type="text" id="note_content" name="note_content" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <footer>
+        Made by Drumil Joshi, Big Data Assignment 06<br>
+        Linkedin: <a href="https://www.linkedin.com/in/drumil-joshi-07/" target="_blank">Drumil Joshi</a>
+    </footer>
+</body>
+</html>
